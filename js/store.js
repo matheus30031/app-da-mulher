@@ -5,7 +5,7 @@ const Store = (() => {
   const def = () => ({
     profile: null,          // {name, phase, look:{skin,hair,outfit}}
     entries: {},            // 'AAAA-MM-DD' -> registro do dia
-    periods: [],            // datas de início da menstruação
+    periodDays: [],         // dias em que houve menstruação
     env: 'quarto',
     letters: [],            // cartas recebidas
     lastLetterDate: null,
@@ -28,6 +28,11 @@ const Store = (() => {
       mem = raw ? Object.assign(d, JSON.parse(raw)) : d;
       mem.settings = Object.assign(def().settings, mem.settings || {});
       mem.strikes = Object.assign(def().strikes, mem.strikes || {});
+      if (mem.periods && mem.periods.length && !mem.periodDays.length) { // migração da versão 0.1
+        const pad = n => String(n).padStart(2, '0'); const now = new Date();
+        mem.periods.forEach(p => { for (let i = 0; i < 5; i++) { const d = new Date(p + 'T12:00:00'); d.setDate(d.getDate() + i); if (d <= now) mem.periodDays.push(`${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`); } });
+        mem.periodDays = [...new Set(mem.periodDays)].sort(); delete mem.periods;
+      }
     } catch (e) { mem = def(); }
     return mem;
   }
