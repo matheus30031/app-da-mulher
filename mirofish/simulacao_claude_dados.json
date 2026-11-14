@@ -1,0 +1,678 @@
+{
+ "agentes": [
+  {
+   "nome": "Mariana",
+   "idade": 27,
+   "cidade": "São Paulo",
+   "grupo": "B",
+   "renda": "média",
+   "baixa": "sim",
+   "usa": "sim",
+   "s1": 2,
+   "s3": 1,
+   "premium": "9,90",
+   "episodio": "não",
+   "favorita": "personagem",
+   "ressalva": "privacidade dos dados",
+   "fala": "A bonequinha com olheiras sou eu na segunda-feira 😂 Só quero saber onde ficam meus dados."
+  },
+  {
+   "nome": "Bruna",
+   "idade": 22,
+   "cidade": "Porto Alegre",
+   "grupo": "B",
+   "renda": "baixa",
+   "baixa": "sim",
+   "usa": "sim",
+   "s1": 2,
+   "s3": 2,
+   "premium": "não",
+   "episodio": "sim",
+   "favorita": "novelinhas",
+   "ressalva": "preço dos episódios",
+   "fala": "Viciei em Cartas para Lia. R$1,90 por episódio pesa pra estudante, mas comprei um."
+  },
+  {
+   "nome": "Juliana",
+   "idade": 34,
+   "cidade": "Recife",
+   "grupo": "B",
+   "renda": "média",
+   "baixa": "sim",
+   "usa": "sim",
+   "s1": 1,
+   "s3": 2,
+   "premium": "9,90",
+   "episodio": "não",
+   "favorita": "cartas de apoio",
+   "ressalva": "tempo",
+   "fala": "Recebi uma carta num dia horrível e chorei no ônibus. Registrar em 30s funciona pra mim."
+  },
+  {
+   "nome": "Tainá",
+   "idade": 29,
+   "cidade": "Manaus",
+   "grupo": "B",
+   "renda": "baixa",
+   "baixa": "sim",
+   "usa": "não",
+   "s1": 1,
+   "s3": 0,
+   "premium": "não",
+   "episodio": "não",
+   "favorita": "ciclo",
+   "ressalva": "app pesado/internet",
+   "fala": "Bonito, mas eu já uso outro app de ciclo e não vi motivo pra trocar."
+  },
+  {
+   "nome": "Camila",
+   "idade": 31,
+   "cidade": "Curitiba",
+   "grupo": "B",
+   "renda": "alta",
+   "baixa": "sim",
+   "usa": "sim",
+   "s1": 2,
+   "s3": 1,
+   "premium": "14,90",
+   "episodio": "sim",
+   "favorita": "personagem",
+   "ressalva": "IA em saúde",
+   "fala": "Paguei pelos cenários. Só não quero que a IA leia meu humor e me venda remédio."
+  },
+  {
+   "nome": "Letícia",
+   "idade": 25,
+   "cidade": "Fortaleza",
+   "grupo": "B",
+   "renda": "média",
+   "baixa": "talvez",
+   "usa": "sim",
+   "s1": 0,
+   "s3": 1,
+   "premium": "não",
+   "episodio": "sim",
+   "favorita": "novelinhas",
+   "ressalva": "não entendeu de cara",
+   "fala": "Baixei pela novelinha que vi no TikTok, fiquei pela personagem."
+  },
+  {
+   "nome": "Priscila",
+   "idade": 38,
+   "cidade": "Goiânia",
+   "grupo": "B",
+   "renda": "média",
+   "baixa": "sim",
+   "usa": "sim",
+   "s1": 1,
+   "s3": 1,
+   "premium": "9,90",
+   "episodio": "não",
+   "favorita": "diário rápido",
+   "ressalva": "julgamento da personagem",
+   "fala": "No 3º dia de chuva no cenário me senti meio julgada. Depois entendi que é só reflexo."
+  },
+  {
+   "nome": "Aline",
+   "idade": 24,
+   "cidade": "Belém",
+   "grupo": "B",
+   "renda": "baixa",
+   "baixa": "talvez",
+   "usa": "não",
+   "s1": 0,
+   "s3": -1,
+   "premium": "não",
+   "episodio": "não",
+   "favorita": "—",
+   "ressalva": "monetização emocional",
+   "fala": "App de saúde vendendo novela? Achei estranho misturar."
+  },
+  {
+   "nome": "Rafaela",
+   "idade": 33,
+   "cidade": "Rio de Janeiro",
+   "grupo": "B",
+   "renda": "alta",
+   "baixa": "sim",
+   "usa": "sim",
+   "s1": 2,
+   "s3": 2,
+   "premium": "19,90",
+   "episodio": "sim",
+   "favorita": "Jardim de Carinho",
+   "ressalva": "nenhuma forte",
+   "fala": "Meu jardim já tem 9 flores. Escrever pra outras mulheres me faz bem."
+  },
+  {
+   "nome": "Natália",
+   "idade": 28,
+   "cidade": "Florianópolis",
+   "grupo": "B",
+   "renda": "média",
+   "baixa": "sim",
+   "usa": "sim",
+   "s1": 1,
+   "s3": 0,
+   "premium": "não",
+   "episodio": "não",
+   "favorita": "ciclo",
+   "ressalva": "previsão de fertilidade",
+   "fala": "Anel do ciclo lindo. Mas quero mais controle de quando o app me manda carta."
+  },
+  {
+   "nome": "Gabriela",
+   "idade": 36,
+   "cidade": "Brasília",
+   "grupo": "B",
+   "renda": "alta",
+   "baixa": "sim",
+   "usa": "sim",
+   "s1": 1,
+   "s3": 1,
+   "premium": "9,90",
+   "episodio": "não",
+   "favorita": "relatório p/ consulta",
+   "ressalva": "privacidade",
+   "fala": "Levei o relatório pra ginecologista, ela gostou. Premium só se o relatório completo for bom."
+  },
+  {
+   "nome": "Daniela",
+   "idade": 21,
+   "cidade": "Salvador",
+   "grupo": "B",
+   "renda": "baixa",
+   "baixa": "sim",
+   "usa": "sim",
+   "s1": 2,
+   "s3": 1,
+   "premium": "não",
+   "episodio": "sim",
+   "favorita": "personagem",
+   "ressalva": "preço",
+   "fala": "É meu Pou da vida adulta. Não pago assinatura, mas compro roupinha se for barato."
+  },
+  {
+   "nome": "Cláudia",
+   "idade": 49,
+   "cidade": "Salvador",
+   "grupo": "A",
+   "renda": "média",
+   "baixa": "sim",
+   "usa": "sim",
+   "s1": 2,
+   "s3": 2,
+   "premium": "9,90",
+   "episodio": "não",
+   "favorita": "diário do climatério",
+   "ressalva": "assinatura",
+   "fala": "Finalmente um app que pergunta de onda de calor. Pagaria R$9,90, mais que isso não."
+  },
+  {
+   "nome": "Rose",
+   "idade": 53,
+   "cidade": "Belo Horizonte",
+   "grupo": "A",
+   "renda": "baixa",
+   "baixa": "talvez",
+   "usa": "sim",
+   "s1": 0,
+   "s3": 1,
+   "premium": "não",
+   "episodio": "sim",
+   "favorita": "novelinhas",
+   "ressalva": "dificuldade com app",
+   "fala": "Minha filha instalou. A novela da padaria é a minha cara. O resto ainda tô aprendendo."
+  },
+  {
+   "nome": "Sandra",
+   "idade": 47,
+   "cidade": "Campinas",
+   "grupo": "A",
+   "renda": "alta",
+   "baixa": "sim",
+   "usa": "sim",
+   "s1": 1,
+   "s3": 2,
+   "premium": "14,90",
+   "episodio": "não",
+   "favorita": "relatório p/ consulta",
+   "ressalva": "conteúdo médico confiável",
+   "fala": "Os gráficos de sono e ondas de calor ajudaram na consulta. Quero ver médicas de verdade nos vídeos."
+  },
+  {
+   "nome": "Márcia",
+   "idade": 52,
+   "cidade": "Porto Alegre",
+   "grupo": "A",
+   "renda": "média",
+   "baixa": "não",
+   "usa": "não",
+   "s1": -1,
+   "s3": -1,
+   "premium": "não",
+   "episodio": "não",
+   "favorita": "—",
+   "ressalva": "infantil",
+   "fala": "Bonequinha não é pra mim. Quero informação séria sobre menopausa."
+  },
+  {
+   "nome": "Lúcia",
+   "idade": 45,
+   "cidade": "Recife",
+   "grupo": "A",
+   "renda": "média",
+   "baixa": "sim",
+   "usa": "sim",
+   "s1": 1,
+   "s3": 1,
+   "premium": "não",
+   "episodio": "não",
+   "favorita": "cartas de apoio",
+   "ressalva": "privacidade",
+   "fala": "As cartas me emocionaram. Mas fiquei pensando: quem lê o que eu escrevo?"
+  },
+  {
+   "nome": "Vera",
+   "idade": 55,
+   "cidade": "São Paulo",
+   "grupo": "A",
+   "renda": "alta",
+   "baixa": "sim",
+   "usa": "sim",
+   "s1": 1,
+   "s3": 2,
+   "premium": "19,90",
+   "episodio": "sim",
+   "favorita": "conteúdos com médicas",
+   "ressalva": "letra pequena",
+   "fala": "Assinei. Precisa de letra maior e de mais conteúdo sobre sono."
+  },
+  {
+   "nome": "Kátia",
+   "idade": 44,
+   "cidade": "Natal",
+   "grupo": "A",
+   "renda": "baixa",
+   "baixa": "sim",
+   "usa": "não",
+   "s1": 1,
+   "s3": 0,
+   "premium": "não",
+   "episodio": "não",
+   "favorita": "ciclo irregular",
+   "ressalva": "previsões erradas",
+   "fala": "Meu ciclo está doido. As previsões não batem e isso me irritou."
+  },
+  {
+   "nome": "Eliane",
+   "idade": 50,
+   "cidade": "Cuiabá",
+   "grupo": "A",
+   "renda": "média",
+   "baixa": "sim",
+   "usa": "sim",
+   "s1": 2,
+   "s3": 1,
+   "premium": "9,90",
+   "episodio": "não",
+   "favorita": "personagem",
+   "ressalva": "nenhuma forte",
+   "fala": "Achei que era coisa de menina, mas me peguei cuidando dela todo dia."
+  },
+  {
+   "nome": "Silvana",
+   "idade": 48,
+   "cidade": "Vitória",
+   "grupo": "A",
+   "renda": "média",
+   "baixa": "talvez",
+   "usa": "sim",
+   "s1": 0,
+   "s3": 1,
+   "premium": "não",
+   "episodio": "não",
+   "favorita": "Ajude o Próximo",
+   "ressalva": "medo de golpe",
+   "fala": "Desconfiei de 'mensagem de desconhecida'. Depois vi que é moderado e anônimo."
+  },
+  {
+   "nome": "Regina",
+   "idade": 51,
+   "cidade": "Teresina",
+   "grupo": "A",
+   "renda": "baixa",
+   "baixa": "sim",
+   "usa": "sim",
+   "s1": 1,
+   "s3": 1,
+   "premium": "não",
+   "episodio": "sim",
+   "favorita": "novelinhas",
+   "ressalva": "preço",
+   "fala": "Assisto as grátis no almoço. Comprar só se a história prender muito."
+  },
+  {
+   "nome": "Dra. Patrícia",
+   "idade": 45,
+   "cidade": "São Paulo",
+   "grupo": "prof",
+   "renda": "alta",
+   "baixa": "sim",
+   "usa": "sim",
+   "s1": 1,
+   "s3": 1,
+   "premium": "—",
+   "episodio": "—",
+   "favorita": "relatório p/ consulta",
+   "ressalva": "fertilidade estimada",
+   "fala": "Relatório ajuda a consulta. Previsão de fertilidade precisa de aviso forte e não pode virar contracepção."
+  },
+  {
+   "nome": "Dra. Helena",
+   "idade": 52,
+   "cidade": "Rio de Janeiro",
+   "grupo": "prof",
+   "renda": "alta",
+   "baixa": "sim",
+   "usa": "sim",
+   "s1": 1,
+   "s3": 1,
+   "premium": "—",
+   "episodio": "—",
+   "favorita": "diário do climatério",
+   "ressalva": "conteúdo sem revisão",
+   "fala": "Bom ver o climatério com espaço. Conteúdo tem que ter revisão médica antes do lançamento."
+  },
+  {
+   "nome": "Psic. Renata",
+   "idade": 39,
+   "cidade": "Belo Horizonte",
+   "grupo": "prof",
+   "renda": "alta",
+   "baixa": "sim",
+   "usa": "sim",
+   "s1": 1,
+   "s3": 0,
+   "premium": "—",
+   "episodio": "—",
+   "favorita": "cartas de apoio",
+   "ressalva": "dependência emocional",
+   "fala": "As cartas acolhem, mas é preciso cuidar de quem está em crise e evitar dependência do app."
+  },
+  {
+   "nome": "Luana",
+   "idade": 31,
+   "cidade": "São Paulo",
+   "grupo": "infl",
+   "renda": "alta",
+   "baixa": "sim",
+   "usa": "sim",
+   "s1": 2,
+   "s3": 0,
+   "premium": "—",
+   "episodio": "—",
+   "favorita": "personagem",
+   "ressalva": "risco de imagem (dados)",
+   "fala": "Divulgaria fácil, é muito 'compartilhável'. Mas só fecho parceria com política de privacidade clara."
+  },
+  {
+   "nome": "Carol Menopausa",
+   "idade": 50,
+   "cidade": "Curitiba",
+   "grupo": "infl",
+   "renda": "média",
+   "baixa": "sim",
+   "usa": "sim",
+   "s1": 2,
+   "s3": 2,
+   "premium": "—",
+   "episodio": "—",
+   "favorita": "diário do climatério",
+   "ressalva": "nenhuma forte",
+   "fala": "Meu público vive pedindo isso. Vou fazer vídeo mostrando o diário de calores."
+  },
+  {
+   "nome": "Fernanda (LGPD)",
+   "idade": 40,
+   "cidade": "Brasília",
+   "grupo": "esp",
+   "renda": "alta",
+   "baixa": "sim",
+   "usa": "sim",
+   "s1": -1,
+   "s3": -1,
+   "premium": "—",
+   "episodio": "—",
+   "favorita": "—",
+   "ressalva": "consentimento e IA",
+   "fala": "Dados de saúde são sensíveis. Quero ver relatório de impacto, consentimento separado e onde roda a IA."
+  },
+  {
+   "nome": "Jornalista Tec",
+   "idade": 35,
+   "cidade": "São Paulo",
+   "grupo": "imp",
+   "renda": "média",
+   "baixa": "sim",
+   "usa": "sim",
+   "s1": 1,
+   "s3": 0,
+   "premium": "—",
+   "episodio": "—",
+   "favorita": "personagem",
+   "ressalva": "IA lendo humor",
+   "fala": "Pauta boa: 'o Pou do autocuidado'. O gancho crítico é privacidade e IA."
+  },
+  {
+   "nome": "Marca (higiene íntima)",
+   "idade": 42,
+   "cidade": "São Paulo",
+   "grupo": "marca",
+   "renda": "alta",
+   "baixa": "sim",
+   "usa": "sim",
+   "s1": 2,
+   "s3": 1,
+   "premium": "—",
+   "episodio": "—",
+   "favorita": "Jardim de Carinho",
+   "ressalva": "regras de publicidade",
+   "fala": "Interesse em patrocinar cenários e temporadas, sem usar dados de saúde."
+  }
+ ],
+ "resumo": {
+  "total": {
+   "n": 22,
+   "baixa": "77%",
+   "talvez": "18%",
+   "usa": "82%",
+   "premium": "45%",
+   "ep": "36%",
+   "s1": 1.05,
+   "s3": 0.95
+  },
+  "A": {
+   "n": 10,
+   "baixa": "70%",
+   "talvez": "20%",
+   "usa": "80%",
+   "premium": "40%",
+   "ep": "30%",
+   "s1": 0.8,
+   "s3": 1.0
+  },
+  "B": {
+   "n": 12,
+   "baixa": "83%",
+   "talvez": "17%",
+   "usa": "83%",
+   "premium": "50%",
+   "ep": "42%",
+   "s1": 1.25,
+   "s3": 0.92
+  },
+  "premium": [
+   [
+    "9,90",
+    6
+   ],
+   [
+    "14,90",
+    2
+   ],
+   [
+    "19,90",
+    2
+   ]
+  ],
+  "favoritas": [
+   [
+    "personagem",
+    6
+   ],
+   [
+    "novelinhas",
+    4
+   ],
+   [
+    "cartas de apoio",
+    3
+   ],
+   [
+    "relatório p/ consulta",
+    3
+   ],
+   [
+    "diário do climatério",
+    3
+   ],
+   [
+    "ciclo",
+    2
+   ],
+   [
+    "Jardim de Carinho",
+    2
+   ],
+   [
+    "diário rápido",
+    1
+   ],
+   [
+    "conteúdos com médicas",
+    1
+   ],
+   [
+    "ciclo irregular",
+    1
+   ],
+   [
+    "Ajude o Próximo",
+    1
+   ]
+  ],
+  "ressalvas": [
+   [
+    "privacidade",
+    2
+   ],
+   [
+    "preço",
+    2
+   ],
+   [
+    "privacidade dos dados",
+    1
+   ],
+   [
+    "preço dos episódios",
+    1
+   ],
+   [
+    "tempo",
+    1
+   ],
+   [
+    "app pesado/internet",
+    1
+   ],
+   [
+    "IA em saúde",
+    1
+   ],
+   [
+    "não entendeu de cara",
+    1
+   ],
+   [
+    "julgamento da personagem",
+    1
+   ],
+   [
+    "monetização emocional",
+    1
+   ],
+   [
+    "previsão de fertilidade",
+    1
+   ],
+   [
+    "assinatura",
+    1
+   ],
+   [
+    "dificuldade com app",
+    1
+   ],
+   [
+    "conteúdo médico confiável",
+    1
+   ],
+   [
+    "infantil",
+    1
+   ],
+   [
+    "letra pequena",
+    1
+   ],
+   [
+    "previsões erradas",
+    1
+   ],
+   [
+    "medo de golpe",
+    1
+   ],
+   [
+    "fertilidade estimada",
+    1
+   ],
+   [
+    "conteúdo sem revisão",
+    1
+   ],
+   [
+    "dependência emocional",
+    1
+   ],
+   [
+    "risco de imagem (dados)",
+    1
+   ],
+   [
+    "consentimento e IA",
+    1
+   ],
+   [
+    "IA lendo humor",
+    1
+   ],
+   [
+    "regras de publicidade",
+    1
+   ]
+  ]
+ }
+}
