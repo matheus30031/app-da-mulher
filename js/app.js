@@ -173,7 +173,7 @@ routes.onboarding = () => {
     const s = S();
     s.profile = { name: $('#nm').value.trim(), phase: $('#ph').value, look };
     s.settings.letters = $('#c2').checked; save();
-    location.hash = '#/home';
+    location.hash = '#home';
   };
 };
 
@@ -196,12 +196,12 @@ routes.home = () => {
       <p class="muted">Decorações: ${D.decor.map(d => decor[d.id] ? d.name : `🔒 ${d.name} (${d.premium ? 'premium' : d.need + ' registros'})`).join(' · ')}</p></div>
     <div class="card"><h3>Conquistas</h3><div class="chips">${ach.map(a => `<span class="chip ${a.done ? 'on' : 'lock'}">${a.icon} ${a.name}</span>`).join('')}</div>
       <p class="muted">Sem pressão: pular dias não tira nada de você.</p></div>
-    <div class="grid2"><a class="tile" href="#/conteudos"><b>📚</b>Conteúdos e Cuidados</a><a class="tile" href="#/perfil"><b>⚙️</b>Perfil</a></div>
+    <div class="grid2"><a class="tile" href="#conteudos"><b>📚</b>Conteúdos e Cuidados</a><a class="tile" href="#perfil"><b>⚙️</b>Perfil</a></div>
   </div>`);
   $('#ck').onclick = () => checkin();
   if (pending) { $('#openL').onclick = () => openLetter(pending); }
   const env = $('#envelope'); if (env) env.onclick = () => openLetter(pending);
-  const mb = $('#memBox'); if (mb) mb.onclick = () => location.hash = '#/cartas';
+  const mb = $('#memBox'); if (mb) mb.onclick = () => location.hash = '#cartas';
   $('#charHit').onclick = () => {
     $$('.bubble').forEach(b => b.remove());
     const b = document.createElement('div'); b.className = 'bubble'; b.textContent = Character.phrase(st, s.profile.name);
@@ -256,7 +256,7 @@ routes.saude = () => {
       <p class="muted">${AI.enabled() ? 'Resumo feito pela IA a partir dos números (suas anotações não são enviadas).' : 'Sem chave de IA: o resumo é feito no próprio aparelho. Configure a IA no Perfil.'}</p>
       <div id="sumOut"></div><button class="btn sec block" id="sum" ${ents.length ? '' : 'disabled'}>Gerar resumo</button>
     </div>
-    <a class="btn block" href="#/relatorio">📄 Relatório para a consulta</a>
+    <a class="btn block" href="#relatorio">📄 Relatório para a consulta</a>
     <h2>Histórico</h2>
     ${ents.slice(0, 30).map(e => `<div class="card between hist" data-d="${e.date}" style="cursor:pointer"><div><b>${fmtFull(e.date)}</b><div class="muted">Sono ${e.sleep} · Energia ${e.energy} · Humor ${e.mood} · Dor ${['nenhuma', 'leve', 'média', 'forte'][e.pain || 0]}${e.symptoms.length ? ' · ' + esc(e.symptoms.join(', ')) : ''}</div></div><span>›</span></div>`).join('') || '<p class="muted">Seus registros vão aparecer aqui.</p>'}
     <button class="btn ghost block" id="past">+ Registrar um dia anterior</button>
@@ -297,7 +297,7 @@ routes.relatorio = () => {
       <p class="muted">Dados registrados pela própria usuária. Não é um laudo nem um diagnóstico.</p>
     </div>
     <button class="btn block noprint" onclick="window.print()">🖨️ Imprimir / salvar em PDF</button>
-    <a class="btn sec block noprint" href="#/saude">Voltar</a>
+    <a class="btn sec block noprint" href="#saude">Voltar</a>
   </div>`);
 };
 
@@ -407,7 +407,7 @@ routes.revisao = () => {
       <p>${esc(m.text)}</p>${m.reasons && m.reasons.length ? `<p class="muted">IA/regras: ${esc(m.reasons.join('; '))}</p>` : ''}
       <div class="row"><button class="btn small rv-ok" data-id="${m.id}">Aprovar e entregar</button><button class="btn sec small rv-no" data-id="${m.id}">Manter rejeição</button></div></div>`).join('') || '<p class="muted">Nada aguardando revisão.</p>'}
     ${s.strikes.count ? `<div class="card"><p>Ocorrências: ${s.strikes.count}${s.strikes.blocked ? ' · bloqueada' : ''}${s.strikes.suspendedUntil > Date.now() ? ' · suspensa' : ''}</p><button class="btn ghost small" id="clr">Zerar penalidades (teste)</button></div>` : ''}
-    <a class="btn sec block" href="#/perfil">Voltar</a>
+    <a class="btn sec block" href="#perfil">Voltar</a>
   </div>`);
   $$(".rv-ok").forEach(b => b.onclick = () => {
     const m = s.sent.find(x => x.id === b.dataset.id);
@@ -450,13 +450,13 @@ routes.novelas = () => {
   const s = S(); setTitle('Novelinhas');
   view(`<div class="wrap">
     <div class="between"><span class="muted">Episódios de 1 a 3 minutos · os ${FREE_EPS} primeiros são grátis</span><span class="badge">🪙 ${s.credits} créditos</span></div>
-    ${D.series.map(se => { const w = allEpisodes(se).filter((_, i) => s.watched[se.id + ':' + i]).length; return `<a class="cover" href="#/serie/${se.id}" style="background:linear-gradient(135deg,${se.colors[0]},${se.colors[1]})"><h3>${esc(se.title)}</h3><div>${esc(se.desc)}</div><div style="margin-top:10px;font-size:13px;opacity:.9">${allEpisodes(se).length} episódios · ${w} assistidos</div></a>`; }).join('')}
+    ${D.series.map(se => { const w = allEpisodes(se).filter((_, i) => s.watched[se.id + ':' + i]).length; return `<a class="cover" href="#serie-${se.id}" style="background:linear-gradient(135deg,${se.colors[0]},${se.colors[1]})"><h3>${esc(se.title)}</h3><div>${esc(se.desc)}</div><div style="margin-top:10px;font-size:13px;opacity:.9">${allEpisodes(se).length} episódios · ${w} assistidos</div></a>`; }).join('')}
     <div class="info">Pagamentos simulados para teste: episódio R$ 1,90 (1 crédito) · temporada R$ 9,90 · Premium libera tudo.</div>
   </div>`);
 };
 
 routes.serie = sid => {
-  const s = S(); const se = D.series.find(x => x.id === sid); if (!se) { location.hash = '#/novelas'; return; }
+  const s = S(); const se = D.series.find(x => x.id === sid); if (!se) { location.hash = '#novelas'; return; }
   setTitle('Novelinhas');
   const eps = allEpisodes(se);
   view(`<div class="wrap">
@@ -466,7 +466,7 @@ routes.serie = sid => {
       <button class="btn small ${isUnlocked(sid, i) ? '' : 'sec'} play" data-i="${i}">${isUnlocked(sid, i) ? '▶ Assistir' : '🔒 Liberar'}</button></div>`).join('')}</div>
     <button class="btn sec block" id="gen">✨ Criar próximo episódio com IA (teste)</button>
     <button class="btn ghost block" id="buy">Comprar 5 créditos · R$ 8,90 (simulado)</button>
-    <a class="btn ghost block" href="#/novelas">Voltar</a>
+    <a class="btn ghost block" href="#novelas">Voltar</a>
   </div>`);
   $$('.play').forEach(b => b.onclick = () => {
     const i = Number(b.dataset.i);
@@ -542,7 +542,7 @@ routes.perfil = () => {
       <label class="f">Modelo</label><select id="model">${['claude-sonnet-5-5', 'claude-haiku-5-5', 'claude-opus-5-5'].map(m => `<option ${s.settings.model === m ? 'selected' : ''}>${m}</option>`).join('')}</select>
       <div class="row"><button class="btn small" id="svk">Salvar chave</button><button class="btn sec small" id="tst">Testar conexão</button></div><div id="tstOut"></div>
     </div>
-    <div class="card"><h3>🛡️ Moderação</h3><a class="btn sec block" href="#/revisao">Painel de revisão humana (teste)${reviewCount ? ' · ' + reviewCount : ''}</a></div>
+    <div class="card"><h3>🛡️ Moderação</h3><a class="btn sec block" href="#revisao">Painel de revisão humana (teste)${reviewCount ? ' · ' + reviewCount : ''}</a></div>
     ${s.purchases.length ? `<div class="card"><h3>Compras simuladas</h3>${s.purchases.slice(-8).reverse().map(p => `<div class="between muted"><span>${esc(p.item)}</span><span>R$ ${p.v.toFixed(2).replace('.', ',')}</span></div>`).join('')}</div>` : ''}
     ${HELP}
     <p class="muted" style="text-align:center">App da Mulher · versão de teste 0.1</p>
@@ -568,15 +568,15 @@ routes.perfil = () => {
     const blob = new Blob([Store.exportJSON()], { type: 'application/json' });
     const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'meus-dados-app-da-mulher.json'; a.click();
   };
-  $('#wipe').onclick = () => confirmSheet('Apagar todos os seus dados deste aparelho? Isso não pode ser desfeito.', 'Apagar tudo', () => { Store.reset(); location.hash = '#/onboarding'; render(); });
+  $('#wipe').onclick = () => confirmSheet('Apagar todos os seus dados deste aparelho? Isso não pode ser desfeito.', 'Apagar tudo', () => { Store.reset(); location.hash = '#onboarding'; render(); });
 };
 
 // ---------------- Roteador ----------------
 function render() {
   const s = S();
-  let [, name, ...args] = (location.hash || '#/home').split('/');
-  if (!s.profile && name !== 'onboarding') { location.hash = '#/onboarding'; return; }
-  if (s.profile && name === 'onboarding') { location.hash = '#/home'; return; }
+  let [name, ...args] = (location.hash || '#home').slice(1).split('-');
+  if (!s.profile && name !== 'onboarding') { location.hash = '#onboarding'; return; }
+  if (s.profile && name === 'onboarding') { location.hash = '#home'; return; }
   if (!routes[name]) name = 'home';
   const tab = { home: 'home', saude: 'saude', relatorio: 'saude', ajudar: 'ajudar', cartas: 'cartas', novelas: 'novelas', serie: 'novelas' }[name];
   $$('nav.tabs a').forEach(a => a.classList.toggle('on', a.dataset.t === tab));
