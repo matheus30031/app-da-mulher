@@ -126,7 +126,7 @@ function checkin(date) {
       if (!e.sleep || !e.energy || !e.mood) { toast('Escolha sono, energia e humor 🙂'); return; }
       e.note = el.querySelector('#note').value.trim();
       s.entries[t] = e;
-      if (e.flow && e.flow !== 'Nenhuma' && !s.periods.some(p => Math.abs(diffDays(t, p)) <= 7)) { s.periods.push(t); s.periods.sort(); }
+      if (e.flow) { const has = s.periodDays.includes(t); if (e.flow !== 'Nenhuma' && !has) { s.periodDays.push(t); s.periodDays.sort(); } if (e.flow === 'Nenhuma' && has) s.periodDays = s.periodDays.filter(x => x !== t); }
       save();
       const got = maybeDeliverLetter();
       close();
@@ -177,6 +177,13 @@ routes.onboarding = () => {
   };
 };
 
+function cycleChip() {
+  const st = Cycle.stats(); if (!st) return `<a class="cyclechip" href="#saude" style="--pc:#e8547f"><i></i><span>Registre sua menstruação para ver o ciclo</span><span>›</span></a>`;
+  const ph = Cycle.PH[st.late ? 'menstrual' : st.phase]; const n = Cycle.diff(st.next, today());
+  const txt = st.late ? `Menstruação atrasada há <b>${st.late} ${st.late === 1 ? 'dia' : 'dias'}</b>` : st.phase === 'menstrual' ? `<b>Dia ${st.day}</b> da menstruação` : `Menstruação em <b>${n} ${n === 1 ? 'dia' : 'dias'}</b> · ${ph.name}`;
+  return `<a class="cyclechip" href="#saude" style="--pc:${ph.color}"><i></i><span>${txt}</span><span>›</span></a>`;
+}
+
 routes.home = () => {
   const s = S(); const ents = entriesDesc(); const st = Character.analyze(ents);
   const td = s.entries[today()];
@@ -190,6 +197,7 @@ routes.home = () => {
     <div class="scene" id="scene">${Character.svg(st, s.profile.look, s.env, decor, { envelope: !!pending, saved })}</div>
     ${td ? `<div class="card between"><div><b>Registro de hoje ✓</b><div class="muted">Sono ${td.sleep}/5 · Energia ${td.energy}/5 · Humor ${td.mood}/5</div></div><button class="btn ghost small" id="ck">Editar</button></div>`
          : `<button class="btn block" id="ck">Como você está hoje? · 30s</button>`}
+    ${cycleChip()}
     ${pending ? `<button class="btn sec block" id="openL">💌 Chegou uma carta para você</button>` : ''}
     ${lowRun ? `<div class="help">Percebemos alguns dias difíceis seguidos. Você não precisa passar por isso sozinha: conversar com alguém de confiança ou com uma profissional pode ajudar.<br>CVV (24h, gratuito): <a href="tel:188">188</a></div>` : ''}
     <div class="card"><h3>Ambiente</h3><div class="chips" id="envs">${D.environments.map(e => `<button class="chip ${s.env === e.id ? 'on' : ''} ${envAllowed(e) ? '' : 'lock'}" data-v="${e.id}">${e.name}${envAllowed(e) ? '' : ' 🔒'}</button>`).join('')}</div>
@@ -217,31 +225,100 @@ routes.home = () => {
 function bars(list, k, color, max) {
   return `<div class="chart">${list.map(d => { const e = S().entries[d]; const v = e ? e[k] : 0; return `<div title="${fmt(d)}: ${v || '-'}" style="height:${v ? (v / max) * 100 : 2}%;background:${v ? color : '#f0e4ea'}"></div>`; }).join('')}</div>`;
 }
-function cycleInfo() {
-  const p = S().periods;
-  if (!p.length) return null;
-  const last = p[p.length - 1];
-  const gaps = []; for (let i = 1; i < p.length; i++) { const g = diffDays(p[i], p[i - 1]); if (g >= 15 && g <= 60) gaps.push(g); }
-  const avg = gaps.length ? Math.round(gaps.slice(-6).reduce((a, b) => a + b, 0) / gaps.slice(-6).length) : 28;
-  return { last, avg, day: diffDays(today(), last) + 1, next: addDays(last, avg), estimated: !gaps.length };
+// ---------------- Ciclo ----------------
+let calY = new Date().getFullYear(), calM = new Date().getMonth();
+const WEEK = ['domingo', 'segunda-feira', 'terça-feira', 'quarta-feira', 'quinta-feira', 'sexta-feira', 'sábado'];
+function cycleSection() {
+  const st = Cycle.stats();
+  const ph = st ? Cycle.PH[st.late ? 'menstrual' : st.phase] : null;
+  const notes = [];
+  if (st && st.estimated) notes.push('Usamos 28 dias como padrão até você registrar mais ciclos.');
+  if (st && st.irregular) notes.push('Seus ciclos variam bastante, então as previsões ficam menos precisas.');
+  if (S().profile.phase === 'climaterio') notes.push('No climatério o ciclo pode ficar irregular.');
+  notes.push('Previsões são estimativas e não servem como método contraceptivo.');
+  return `<div class="card hero">
+    <div class="ringwrap">${Cycle.ring(st)}</div>
+    ${st ? `<div class="phase" style="--pc:${ph.color};--ps:${ph.soft}"><b>${st.late ? 'Seu ciclo passou da média' : ph.name}</b><p>${st.late ? 'Atrasos podem acontecer por estresse, mudanças de rotina e outras causas. Se continuar, ou se houver chance de gravidez, converse com uma profissional de saúde.' : ph.text}</p></div>
+      <div class="facts">
+        <div><span>Próxima menstruação</span><b>${st.late ? 'aguardando' : fmtFull(st.next)}</b></div>
+        <div><span>Janela fértil</span><b>${st.late || st.day > Cycle.diff(st.fertileEnd, st.last) + 1 ? 'próximo ciclo' : `${fmt(st.fertileStart)} a ${fmt(st.fertileEnd)}`}</b></div>
+        <div><span>Ciclo médio</span><b>${st.L} dias</b></div>
+        <div><span>Menstruação dura</span><b>~${st.P} dias</b></div>
+      </div>` : ''}
+    ${Cycle.strip(st)}
+    <button class="btn block" id="logP">🩸 Registrar menstruação</button>
+    <p class="muted center">${notes.join(' ')}</p>
+  </div>
+  <div class="card"><div id="calBox">${Cycle.calendar(calY, calM, st, false)}</div>${Cycle.legend}</div>`;
+}
+function bindCycle() {
+  const strip = $('#strip'); if (strip) { const t = strip.querySelector('.today'); if (t) strip.scrollLeft = t.offsetLeft - strip.clientWidth / 2 + t.clientWidth / 2; }
+  $$('#strip .sd').forEach(b => b.onclick = () => dayDetail(b.dataset.d));
+  bindCal($('#calBox'), false);
+  $('#logP').onclick = periodEditor;
+}
+function bindCal(box, edit, onChange) {
+  box.onclick = ev => {
+    const nav = ev.target.closest('.nav');
+    if (nav) { calM += Number(nav.dataset.mv); if (calM < 0) { calM = 11; calY--; } if (calM > 11) { calM = 0; calY++; } box.innerHTML = Cycle.calendar(calY, calM, Cycle.stats(), edit); return; }
+    const d = ev.target.closest('.d'); if (!d || d.disabled) return;
+    if (!edit) return dayDetail(d.dataset.d);
+    const day = d.dataset.d; const set = new Set(S().periodDays);
+    if (!set.has(day) && !set.has(addDays(day, -1)) && !set.has(addDays(day, 1))) { const st = Cycle.stats(); Cycle.markStart(day, st ? st.P : 5); }
+    else Cycle.toggleDay(day);
+    box.innerHTML = Cycle.calendar(calY, calM, Cycle.stats(), edit);
+    onChange && onChange();
+  };
+}
+function periodEditor() {
+  const ym = [calY, calM]; calY = new Date().getFullYear(); calM = new Date().getMonth();
+  sheet(`<h3>Quando você menstruou?</h3>
+    <p class="muted">Toque no primeiro dia: marcamos a duração média automaticamente. Toque em um dia marcado para desmarcar.</p>
+    <button class="chip" id="pToday">🩸 Começou hoje</button>
+    <div id="edCal" style="margin-top:12px">${Cycle.calendar(calY, calM, Cycle.stats(), true)}</div>
+    <button class="btn block" id="pDone">Pronto</button>`, (el, close) => {
+    const box = el.querySelector('#edCal');
+    bindCal(box, true);
+    el.querySelector('#pToday').onclick = () => { if (!S().periodDays.includes(today())) Cycle.toggleDay(today()); box.innerHTML = Cycle.calendar(calY, calM, Cycle.stats(), true); toast('Marcado: menstruação hoje 🩸'); };
+    el.querySelector('#pDone').onclick = () => { calY = new Date().getFullYear(); calM = new Date().getMonth(); close(); render(); };
+    void ym;
+    el.parentElement.addEventListener('click', e => { if (e.target === el.parentElement) render(); });
+  });
+}
+function dayDetail(d) {
+  const st = Cycle.stats(); const inf = Cycle.info(d, st); const e = S().entries[d];
+  const dt = new Date(d + 'T12:00:00');
+  const tags = [];
+  if (inf.logged) tags.push(`<span class="tag" style="background:${Cycle.PH.menstrual.color};color:#fff">🩸 Menstruação</span>`);
+  else if (inf.pred) tags.push(`<span class="tag dash">Menstruação prevista</span>`);
+  if (inf.ovu) tags.push(`<span class="tag" style="background:${Cycle.PH.ovulacao.soft}">Ovulação estimada</span>`);
+  else if (inf.fert) tags.push(`<span class="tag" style="background:${Cycle.PH.fertil.soft}">Janela fértil</span>`);
+  if (inf.n && !inf.logged && inf.phase && !inf.fert && !inf.pred) tags.push(`<span class="tag" style="background:${Cycle.PH[inf.phase].soft}">${Cycle.PH[inf.phase].name}</span>`);
+  if (inf.n) tags.push(`<span class="tag">dia ${inf.n} do ciclo</span>`);
+  const past = d <= today();
+  sheet(`<p class="muted" style="margin:0">${WEEK[dt.getDay()]}</p><h3 style="font-size:22px">${dt.getDate()} de ${Cycle.MESES[dt.getMonth()]}</h3>
+    <div class="chips">${tags.join('') || '<span class="muted">Sem informações do ciclo para este dia.</span>'}</div>
+    ${e ? `<div class="info">Sono ${e.sleep}/5 · Energia ${e.energy}/5 · Humor ${e.mood}/5 · Dor ${['nenhuma', 'leve', 'média', 'forte'][e.pain || 0]}${e.symptoms.length ? '<br>' + esc(e.symptoms.join(', ')) : ''}</div>` : ''}
+    ${past ? `<button class="btn block" id="dReg">${e ? 'Editar registro do dia' : 'Registrar como estava'}</button>
+      <button class="btn sec block" id="dPer">${inf.logged ? 'Desmarcar menstruação' : 'Marcar menstruação neste dia'}</button>` : '<p class="muted">Dia futuro: as informações são previsões.</p>'}
+    <button class="btn ghost block" id="dX">Fechar</button>`, (el, close) => {
+    el.querySelector('#dX').onclick = close;
+    if (past) {
+      el.querySelector('#dReg').onclick = () => { close(); checkin(d); };
+      el.querySelector('#dPer').onclick = () => { Cycle.toggleDay(d); close(); render(); };
+    }
+  });
 }
 
 routes.saude = () => {
-  const s = S(); setTitle('Minha Saúde');
+  const s = S(); setTitle('Ciclo e Saúde');
   const ents = entriesDesc();
   const days14 = Array.from({ length: 14 }, (_, i) => addDays(today(), i - 13));
   const last30 = ents.filter(e => diffDays(today(), e.date) < 30);
   const freq = {}; last30.forEach(e => (e.symptoms || []).forEach(x => freq[x] = (freq[x] || 0) + 1));
   const top = Object.entries(freq).sort((a, b) => b[1] - a[1]).slice(0, 6);
-  const ci = cycleInfo();
   view(`<div class="wrap">
-    <div class="card"><h3>🩸 Ciclo</h3>
-      ${ci ? `<p>Dia <b>${ci.day}</b> do ciclo · última menstruação em ${fmtFull(ci.last)}<br>Próxima prevista: <b>${fmtFull(ci.next)}</b> <span class="muted">(${ci.estimated ? 'estimativa padrão de 28 dias' : 'média de ' + ci.avg + ' dias'})</span></p>`
-            : `<p class="muted">${s.profile.phase === 'climaterio' ? 'No climatério o ciclo pode ficar irregular. Registrar ajuda a acompanhar.' : 'Registre o início da menstruação para ver previsões.'}</p>`}
-      <div class="row"><button class="btn small" id="pToday">Menstruação começou hoje</button><input type="date" id="pDate" style="width:auto;margin:0" max="${today()}"><button class="btn sec small" id="pAdd">Adicionar data</button></div>
-      ${s.periods.length ? `<p class="muted">Datas registradas: ${s.periods.slice(-6).map(fmt).join(', ')}</p>` : ''}
-      <p class="muted">Previsões são estimativas e não servem como método contraceptivo.</p>
-    </div>
+    ${cycleSection()}
     <div class="card"><h3>Últimos 14 dias</h3>
       <div class="muted">😴 Sono</div>${bars(days14, 'sleep', '#9b87d6', 5)}
       <div class="muted">⚡ Energia</div>${bars(days14, 'energy', '#f6c945', 5)}
@@ -261,9 +338,7 @@ routes.saude = () => {
     ${ents.slice(0, 30).map(e => `<div class="card between hist" data-d="${e.date}" style="cursor:pointer"><div><b>${fmtFull(e.date)}</b><div class="muted">Sono ${e.sleep} · Energia ${e.energy} · Humor ${e.mood} · Dor ${['nenhuma', 'leve', 'média', 'forte'][e.pain || 0]}${e.symptoms.length ? ' · ' + esc(e.symptoms.join(', ')) : ''}</div></div><span>›</span></div>`).join('') || '<p class="muted">Seus registros vão aparecer aqui.</p>'}
     <button class="btn ghost block" id="past">+ Registrar um dia anterior</button>
   </div>`);
-  const addP = d => { if (!d) return; if (!s.periods.includes(d)) { s.periods.push(d); s.periods.sort(); save(); } toast('Data registrada'); render(); };
-  $('#pToday').onclick = () => addP(today());
-  $('#pAdd').onclick = () => addP($('#pDate').value);
+  bindCycle();
   $$('.hist').forEach(h => h.onclick = () => checkin(h.dataset.d));
   $('#past').onclick = () => sheet(`<h3>Qual dia?</h3><input type="date" id="pd" max="${today()}"><button class="btn block" id="okd">Continuar</button>`, (el, close) => {
     el.querySelector('#okd').onclick = () => { const d = el.querySelector('#pd').value; if (!d) return; close(); checkin(d); };
@@ -284,13 +359,13 @@ routes.relatorio = () => {
   const ents = entriesDesc().filter(e => diffDays(today(), e.date) < 30);
   const avg = k => ents.length ? (ents.reduce((a, e) => a + (e[k] || 0), 0) / ents.length).toFixed(1) : '-';
   const freq = {}; ents.forEach(e => (e.symptoms || []).forEach(x => freq[x] = (freq[x] || 0) + 1));
-  const ci = cycleInfo();
+  const ci = Cycle.stats();
   view(`<div class="wrap">
     <div class="card">
       <h3>Relatório de autocuidado — últimos 30 dias</h3>
       <p class="muted">${esc(s.profile.name || '')} · gerado em ${fmtFull(today())} · ${ents.length} registros</p>
       <p>Médias (1 a 5): sono <b>${avg('sleep')}</b> · energia <b>${avg('energy')}</b> · humor <b>${avg('mood')}</b> · dor (0 a 3) <b>${avg('pain')}</b></p>
-      ${ci ? `<p>Ciclo: última menstruação ${fmtFull(ci.last)} · duração média ${ci.avg} dias · datas: ${s.periods.slice(-6).map(fmtFull).join(', ')}</p>` : ''}
+      ${ci ? `<p>Ciclo: última menstruação em ${fmtFull(ci.last)} · ciclo médio ${ci.L} dias · menstruação ~${ci.P} dias · inícios registrados: ${ci.starts.slice(-6).map(fmtFull).join(', ')}</p>` : ''}
       <p>Sintomas: ${Object.entries(freq).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${esc(k)} (${v}x)`).join(', ') || 'nenhum registrado'}</p>
       <table><tr><th>Data</th><th>Sono</th><th>Energia</th><th>Humor</th><th>Dor</th><th>Menstr.</th><th>Sintomas</th></tr>
       ${ents.map(e => `<tr><td>${fmt(e.date)}</td><td>${e.sleep}</td><td>${e.energy}</td><td>${e.mood}</td><td>${e.pain || 0}</td><td>${esc(e.flow || '-')}</td><td>${esc(e.symptoms.join(', '))}</td></tr>`).join('')}</table>
