@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#e46f9a">
+<title>App da Mulher — versão de teste</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app">
+  <header class="top">
+    <h1 id="title">App da Mulher</h1>
+    <div>
+      <a class="iconbtn" href="#conteudos" aria-label="Conteúdos">📚</a>
+      <a class="iconbtn" href="#perfil" aria-label="Perfil">⚙️</a>
+    </div>
+  </header>
+  <main id="view"></main>
+  <nav class="tabs">
+    <a href="#home" data-t="home"><span>🏡</span>Início</a>
+    <a href="#saude" data-t="saude"><span>📊</span>Minha Saúde</a>
+    <a href="#ajudar" data-t="ajudar"><span>🌷</span>Ajudar</a>
+    <a href="#cartas" data-t="cartas"><span>💌</span>Cartas</a>
+    <a href="#novelas" data-t="novelas"><span>🎬</span>Novelinhas</a>
+  </nav>
+</div>
+<script src="js/data.js"></script>
+<script src="js/store.js"></script>
+<script src="js/ai.js"></script>
+<script src="js/character.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
